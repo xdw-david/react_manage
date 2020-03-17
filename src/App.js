@@ -1,26 +1,55 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React, { Component } from 'react';
+import './style2.css';
+import { CSSTransition,TransitionGroup } from 'react-transition-group';
+class App extends Component{
+  constructor(props){
+    super(props);
+    this.state={
+      list:[]
+    }
+    this.handleAddItem=this.handleAddItem.bind(this)
+  }
+  render(){
+    return(
+      <div>
+      <TransitionGroup>
+      {
+        this.state.list.map((item,index)=>{
+        return(
+          <CSSTransition
+          timeout={1000}
+          classNames='fade'
+          unmountOnExit
+          onEntered={(el)=>{el.style.color='blue'}}
+          appear={true}
+          key={index}
+          >
+            <div>{item}</div>
+          </CSSTransition>
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+        )  
+        })
+      }
+      </TransitionGroup>
+      
+      <button onClick={this.handleAddItem}>隐藏</button>
+
+      </div>
+    )
+  }
+  handleToggole(){
+    this.setState(
+      {
+        show:this.state.show ? false : true
+      }
+    )
+  }
+  handleAddItem(){
+    this.setState((prevState)=>{
+      return{
+        list:[...prevState.list,'item']
+      }
+    })
+  }
 }
-
 export default App;
